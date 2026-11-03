@@ -1,15 +1,18 @@
-from sqlmodel import SQLModel, Field, JSON, Column
+from beanie import Document
+from pydantic import BaseModel
 from typing import Optional, List
 
-class Event(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+class Event(Document):
     title: str
     image: str
     description: str
-    tags: List[str] = Field(sa_column=Column(JSON))
+    tags: List[str]
     location: str
 
-class EventUpdate(SQLModel):
+    class Settings:
+        name = "events"
+
+class EventUpdate(BaseModel):
     title: Optional[str] = None
     image: Optional[str] = None
     description: Optional[str] = None
